@@ -13,10 +13,7 @@ abstract class Controller
         $month = now()->format('m');
         $year = now()->format('Y');
 
-        $expenses = Expense::where('user_id', auth()->id())
-            ->whereMonth('date', $month)
-            ->whereYear('date', $year)
-            ->get();
+        $expenses = Expense::where('user_id', auth()->id())->whereMonth('date', $month)->whereYear('date', $year)->get();
 
         $pdf = Pdf::loadView('expenses.report', compact('expenses', 'month', 'year'));
 

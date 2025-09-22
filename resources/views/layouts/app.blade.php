@@ -13,6 +13,19 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        
+        <script>
+            // Dark mode toggle functionality - default to light mode
+            if (localStorage.getItem('color-theme') === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+                // Ensure light mode is set as default
+                if (!localStorage.getItem('color-theme')) {
+                    localStorage.setItem('color-theme', 'light');
+                }
+            }
+        </script>
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
@@ -32,5 +45,44 @@
                 {{ $slot }}
             </main>
         </div>
+        
+        <script>
+            // Dark mode toggle functionality
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const themeToggleMobileBtn = document.getElementById('theme-toggle-mobile');
+            const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+            const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+            const themeToggleDarkIconMobile = document.getElementById('theme-toggle-dark-icon-mobile');
+            const themeToggleLightIconMobile = document.getElementById('theme-toggle-light-icon-mobile');
+
+            // Change the icons inside the button based on previous settings
+            if (localStorage.getItem('color-theme') === 'dark') {
+                themeToggleLightIcon.classList.remove('hidden');
+                themeToggleLightIconMobile.classList.remove('hidden');
+            } else {
+                themeToggleDarkIcon.classList.remove('hidden');
+                themeToggleDarkIconMobile.classList.remove('hidden');
+            }
+
+            function toggleTheme() {
+                // Toggle icons
+                themeToggleDarkIcon.classList.toggle('hidden');
+                themeToggleLightIcon.classList.toggle('hidden');
+                themeToggleDarkIconMobile.classList.toggle('hidden');
+                themeToggleLightIconMobile.classList.toggle('hidden');
+
+                // Toggle theme
+                if (localStorage.getItem('color-theme') === 'light') {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('color-theme', 'dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('color-theme', 'light');
+                }
+            }
+
+            themeToggleBtn.addEventListener('click', toggleTheme);
+            themeToggleMobileBtn.addEventListener('click', toggleTheme);
+        </script>
     </body>
 </html>
